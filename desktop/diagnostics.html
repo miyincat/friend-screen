@@ -1,0 +1,18 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>同屏小屋 · 诊断记录</title><link rel="stylesheet" href="/desktop.css"><link rel="stylesheet" href="/diagnostics.css"><script src="/diagnostics.js" defer></script></head>
+<body><main class="diagnostic-shell">
+<header><div><p class="eyebrow">CONNECTION DIAGNOSTICS</p><h1>诊断记录</h1><p class="muted">实时观察网络与媒体。双方都开启记录，便于对照同一时刻。</p></div><span id="record-state" class="status-pill">未记录</span></header>
+<section class="toolbar"><button id="record-toggle" class="button primary">开始记录</button><select id="mark-kind" aria-label="问题类型"><option value="stutter">画面卡顿</option><option value="video-stutter-audio-ok">画面卡顿，声音正常</option><option value="blur">画面模糊</option><option value="no-video">没有画面</option><option value="no-audio">没有声音</option><option value="disconnected">掉线</option><option value="other">其他问题</option></select><button id="mark" class="button secondary" disabled>标记问题</button><button id="show-file" class="button cancel" disabled>打开产物位置</button><button id="export-last" class="text-link">打包上次记录</button></section>
+<p id="record-info" class="muted" role="status">默认关闭。点击开始后每 3 秒记录一次，停止时自动在桌面生成 ZIP。</p>
+<section class="metrics-grid">
+<article><span>实际视频 / 帧率</span><strong id="video">—</strong><small id="role">尚未加入房间</small></article>
+<article><span>视频发送或接收速率</span><strong id="rate">—</strong><small id="target">目标：—</small></article>
+<article><span>语音链路最高往返延迟</span><strong id="rtt">—</strong><small>与原生视频网络路径分开统计</small></article>
+<article><span>语音连接累计丢包</span><strong id="loss">—</strong><small id="voice">麦克风 / 收听状态：—</small></article>
+<article><span>程序 CPU / 工作集</span><strong id="resources">—</strong><small id="native-resources">原生媒体：—</small><small id="system-resources">整机负载：—</small></article>
+<article><span>ZeroTier 底层路径</span><strong id="network">—</strong><small id="fallback">无证据时显示未知，不推断一定中继</small></article>
+</section>
+<section class="panel"><h2>成员链路</h2><div class="table-wrap"><table><thead><tr><th>设备摘要</th><th>连接 / 私网</th><th>语音往返</th><th>接收音量</th><th>底层路径</th></tr></thead><tbody id="peers"></tbody></table></div><p id="freshness" class="muted"></p></section>
+<section class="panel"><h2>原生视频路径与恢复</h2><p id="native-status" class="muted">等待原生视频统计。</p><div class="table-wrap"><table class="native-table"><thead><tr><th>路径 / 链路摘要</th><th>状态 / 新鲜度</th><th>视频往返延迟</th><th>缺包 / 乱序 / 请求</th><th>发送队列或接收入口</th></tr></thead><tbody id="native-paths"></tbody></table></div><p id="playback-recovery" class="muted"></p><p id="screen-audio" class="muted"></p></section>
+<section class="panel"><h2>事件与问题标记</h2><ol id="events"></ol></section>
+<footer>不录屏、不录音，不保存真实 IP、昵称头像、窗口标题、完整房号、SDP、邀请码、口令或密钥。记录只保存在本机，不自动上传。单次最多 2 小时或 20 MiB；关闭此窗口会停止并保存，最小化会继续。崩溃时已落盘文件仍在“桌面 / 同屏小屋诊断”，下次可点“打包上次记录”。</footer>
+</main></body></html>

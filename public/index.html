@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="同屏小屋：给朋友的私人屏幕共享房间。">
+  <title>同屏小屋 · 和朋友一起看</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/share-settings.css">
+  <script src="/profile.js" defer></script>
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="同屏小屋首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="3" y="5" width="22" height="17" rx="4"/><path d="M12 26h9M17 22v4M25 11l5-3v12l-5-3"/></svg></span>
+        <span>同屏小屋<small>一起看，就在这里。</small></span>
+      </a>
+      <div class="header-meta"><span class="private-label"><span class="dot"></span>私人共享空间</span><span id="connection-badge" class="connection-badge">尚未连接</span></div>
+    </header>
+
+    <main class="workspace">
+      <aside class="sidebar" aria-label="房间与成员">
+        <section class="panel profile-panel" aria-label="我的账号与声音">
+          <div class="profile-heading"><span id="self-avatar" class="avatar profile-avatar">我</span><div class="profile-identity"><strong id="self-name">我的小屋身份</strong><span id="account-label">游客 · 登录后保存资料</span></div><button id="account-open" class="button subtle" type="button">登录</button></div>
+          <details id="profile-details"><summary>修改头像与昵称</summary>
+            <div class="avatar-actions"><button id="avatar-upload" type="button" class="text-button">上传头像</button><button id="avatar-reset" type="button" class="text-button">恢复默认</button></div>
+            <input id="avatar-file" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+            <p class="field-hint">PNG / JPG / WebP，最大 5 MB，自动裁切为方形。</p>
+            <form id="profile-form"><label for="profile-name">昵称</label><div class="profile-edit"><input id="profile-name" maxlength="24" required placeholder="朋友们怎么称呼你"><button class="button secondary" type="submit">保存</button></div></form>
+            <button id="account-logout" class="text-button" type="button" hidden>退出账号并离开房间</button>
+          </details>
+          <details id="voice-settings" class="voice-settings"><summary>麦克风与发送音量</summary><div class="voice-heading"><span id="self-mic-state">麦克风已关闭</span><button id="profile-mic-btn" class="button secondary" type="button" aria-pressed="false" disabled>开麦</button></div>
+          <label class="volume-label" for="mic-volume"><span>我的麦克风 · 发送音量</span><output id="mic-volume-value" for="mic-volume">100%</output></label>
+          <input id="mic-volume" class="volume-slider" type="range" min="0" max="200" step="1" value="100" aria-label="我的麦克风发送音量">
+          <meter id="mic-level" min="0" max="1" value="0" aria-label="麦克风电平"></meter>
+          <p class="field-hint">0% 静音发送；闭麦会停止采集。</p></details>
+          <p id="profile-status" class="profile-status" role="status"></p>
+        </section>
+        <section id="setup-view" class="panel setup-panel">
+          <div class="section-kicker">GET TOGETHER</div>
+          <h1>给朋友留个位置</h1>
+          <p class="muted intro">一个房间，一块屏幕。<br>把游戏、影片和灵感分享给彼此。</p>
+          <div class="tabs" role="tablist" aria-label="房间操作">
+            <button id="create-tab" class="tab active" role="tab" aria-selected="true" aria-controls="create-form" type="button">创建房间</button>
+            <button id="join-tab" class="tab" role="tab" aria-selected="false" aria-controls="join-form" type="button">加入房间</button>
+          </div>
+          <div id="access-key-field" class="field" hidden><label for="access-key">站点口令</label><input id="access-key" type="password" autocomplete="off" maxlength="256" placeholder="由服务器管理员提供"><p class="field-hint">仅受邀请的朋友可以使用本站。</p></div>
+          <form id="create-form" role="tabpanel" aria-labelledby="create-tab">
+            <div class="field"><label for="create-name">你的昵称</label><input id="create-name" name="nickname" maxlength="24" minlength="1" required autocomplete="nickname" placeholder="朋友们怎么称呼你"></div>
+            <div class="field"><div class="label-row"><label for="create-password">房间口令</label><button id="regenerate-password" type="button" class="text-button">换一个</button></div><div class="input-with-button"><input id="create-password" name="password" type="password" minlength="8" maxlength="128" required autocomplete="new-password"><button type="button" id="toggle-create-password" class="input-button" aria-label="显示房间口令">显示</button></div><p class="field-hint">已生成随机口令，请通过私聊发给朋友。</p></div>
+            <button id="create-btn" class="button primary full" type="submit">创建我的小屋 <span aria-hidden="true">↗</span></button>
+          </form>
+          <form id="join-form" role="tabpanel" aria-labelledby="join-tab" hidden>
+            <div class="field"><label for="join-name">你的昵称</label><input id="join-name" name="nickname" maxlength="24" minlength="1" required autocomplete="nickname" placeholder="朋友们怎么称呼你"></div>
+            <div class="field"><label for="join-room">房间号</label><input id="join-room" class="mono" name="room" maxlength="12" minlength="12" pattern="[A-Fa-f0-9]{12}" required autocomplete="off" placeholder="12 位房间号" spellcheck="false"></div>
+            <div class="field"><label for="join-password">房间口令</label><input id="join-password" name="password" type="password" minlength="8" maxlength="128" required autocomplete="off" placeholder="输入朋友发来的口令"></div>
+            <button id="join-btn" class="button primary full" type="submit">进入朋友的小屋 <span aria-hidden="true">↗</span></button>
+          </form>
+          <p class="setup-footnote">最多 <span id="max-participants">6</span> 人 · 支持游客 · 不录制内容</p>
+        </section>
+
+        <section id="room-view" class="panel room-panel" hidden>
+          <div class="section-kicker">YOUR ROOM</div>
+          <div class="room-heading"><h1>朋友都在这儿</h1><span class="room-live"><span class="dot"></span>在线</span></div>
+          <div class="room-code-box"><span>房间号</span><strong id="room-code" class="mono"></strong></div>
+          <div class="invite-actions"><button id="copy-invite" class="button secondary" type="button">复制邀请链接</button><button id="copy-password" class="button subtle" type="button">复制口令</button></div>
+          <p class="field-hint">链接不含口令。请将两者分别私发给朋友。</p>
+          <div class="members-heading"><h2>房间成员</h2><span id="member-count">1 / 6</span></div>
+          <ul id="members-list" class="members-list" aria-label="在线成员"></ul>
+          <button id="leave-btn" class="button leave-button full" type="button">离开房间</button>
+        </section>
+
+        <section class="network-note" aria-label="连接环境" hidden>
+          <span id="network-note-icon" class="note-icon" aria-hidden="true">i</span>
+          <div><h2 id="network-note-title">正在检查连接环境</h2><p id="network-note-text">本机使用 localhost，跨网络使用需要 HTTPS 与 TURN 中继。</p></div>
+        </section>
+      </aside>
+
+      <section class="main-panel" aria-label="屏幕共享">
+        <div class="stage-header"><div><div class="section-kicker">SHARED MOMENTS</div><h2 id="stage-title">好内容，值得一起看</h2></div><span id="stage-state" class="stage-state">等待开始</span></div>
+        <div id="stage" class="stage">
+          <video id="stage-video" autoplay playsinline muted hidden></video>
+          <div id="stage-empty" class="stage-empty">
+            <div class="screen-art" aria-hidden="true"><div class="screen-art-window"><div class="screen-art-top"><i></i><i></i><i></i></div><svg viewBox="0 0 120 80"><path d="M22 61l24-25 19 18 17-28 18 35"/><circle cx="39" cy="22" r="7"/></svg></div><span class="screen-art-float">一起看</span><div class="screen-art-base"></div></div>
+            <h3 id="empty-title">屏幕准备好了，等你来分享</h3>
+            <p id="empty-text">先创建或加入房间，再选择想分享的窗口、标签页或整个屏幕。</p>
+            <div class="stage-chips" aria-hidden="true"><span>游戏时刻</span><span>一起看片</span><span>远程协作</span></div>
+          </div>
+          <div id="stage-caption" class="stage-caption" hidden><span id="presenter-label"></span><span id="capture-details"></span></div>
+          <button id="fullscreen-btn" class="fullscreen-button" type="button" aria-label="全屏观看" title="全屏观看" hidden>⛶</button>
+        </div>
+
+        <div class="controls" aria-label="共享控制">
+          <button id="share-btn" class="button primary share-button" type="button" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="3" width="16" height="11" rx="2"/><path d="M6 18h8M10 14v4M10 11V6m-3 3l3-3 3 3"/></svg><span>开始共享</span></button>
+          <button id="mic-btn" class="button control-button" type="button" aria-pressed="false" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="2" width="6" height="10" rx="3"/><path d="M4 9v1a6 6 0 0012 0V9M10 16v3M7 19h6"/></svg><span>打开麦克风</span></button>
+          <button id="sound-btn" class="button control-button" type="button" aria-pressed="false" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8h4l5-4v12l-5-4H3zM15 6a6 6 0 010 8"/></svg><span>打开声音</span></button>
+          <button id="share-settings-btn" class="button control-button" type="button" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/><circle cx="7" cy="5" r="2"/><circle cx="13" cy="10" r="2"/><circle cx="8" cy="15" r="2"/></svg><span>分享设置</span></button>
+          <div class="quality-control web-quality-control"><label for="sharing-priority">共享偏好</label><select id="sharing-priority" aria-label="共享偏好"><option value="fixed">平衡 · 自动适应</option><option value="motion">流畅优先 · 允许降清</option><option value="detail" selected>保持分辨率 · 低带宽可能降帧</option></select></div>
+          <div class="quality-control web-quality-control">
+            <label for="quality-select">共享目标画质</label>
+            <select id="quality-select" aria-label="共享目标画质">
+              <option value="720p30">720p · 30 帧</option>
+              <option value="1080p30">1080p · 30 帧</option>
+              <option value="1080p60" selected>1080p · 60 帧</option>
+              <option value="1440p60">2K (1440p) · 60 帧</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="status-message" class="status-message" role="status" aria-live="polite">屏幕共享前始终由你选择并授权。麦克风默认关闭。</div>
+
+        <div class="details-grid">
+          <section class="detail-card"><div class="detail-icon" aria-hidden="true">↗</div><div><h3>只分享你选择的内容</h3><p>浏览器会先让你选择分享来源。共享声音是否可用，取决于浏览器、系统和分享来源。</p></div></section>
+          <section class="detail-card diagnostics"><div class="diagnostic-top"><h3>连接情况</h3><span id="path-status">尚未连接</span></div><div class="metrics"><div><strong id="metric-rtt">—</strong><span>往返延迟</span></div><div><strong id="metric-bitrate">—</strong><span>发送 / 接收速率</span></div><div><strong id="metric-quality">—</strong><span>实际传输画面 / 帧率</span></div></div></section>
+        </div>
+        <button id="diagnostic-window" class="button secondary" type="button" hidden>诊断记录窗口</button>
+        <details class="connection-details"><summary>查看连接诊断</summary><div id="connection-diagnostics">加入房间后，可以在这里查看每位朋友的连接情况。</div></details>
+      </section>
+    </main>
+    <footer class="footer"><span>同屏小屋 <span class="footer-separator">/</span> 留一点陪伴的时间</span><span>独立原创项目 · 与 Oopz 无关联</span></footer>
+  </div>
+  <div id="remote-audio-container" hidden aria-hidden="true"></div>
+  <dialog id="account-dialog" class="account-dialog" aria-labelledby="account-title">
+    <div class="dialog-heading"><div><div class="section-kicker">YOUR SPACE</div><h2 id="account-title">欢迎回到小屋</h2></div><button id="account-close" class="button subtle" type="button" aria-label="关闭登录">✕</button></div>
+    <p class="muted">登录自己的账号，留下熟悉的头像和昵称。</p>
+    <div class="tabs" aria-label="账号操作"><button id="login-tab" class="tab active" type="button">登录账号</button><button id="register-tab" class="tab" type="button">注册账号</button></div>
+    <form id="account-form">
+      <div class="field"><label for="account-username">账号</label><input id="account-username" autocomplete="username" required minlength="3" maxlength="32" pattern="[A-Za-z0-9_]{3,32}" placeholder="3–32 位字母、数字或下划线"></div>
+      <div id="register-name-field" class="field" hidden><label for="register-name">昵称</label><input id="register-name" autocomplete="nickname" maxlength="24" placeholder="朋友们怎么称呼你"></div>
+      <div class="field"><label for="account-password">密码</label><input id="account-password" type="password" autocomplete="current-password" required minlength="8" maxlength="128" placeholder="至少 8 位，不同于房间口令"></div>
+      <div id="register-confirm-field" class="field" hidden><label for="account-confirm">确认密码</label><input id="account-confirm" type="password" autocomplete="new-password" maxlength="128"></div>
+      <div id="account-access-field" class="field" hidden><label for="account-access">站点口令</label><input id="account-access" type="password" autocomplete="off" maxlength="256" placeholder="由服务器管理员提供"></div>
+      <label class="remember-option"><input id="account-remember" type="checkbox" checked><span>记住登录，下次自动进入（30 天）</span></label>
+      <p id="account-error" class="account-error" role="alert"></p>
+      <button id="account-submit" class="button primary full" type="submit">登录</button>
+    </form>
+    <p class="field-hint account-scope">账号属于当前连接的服务。本机账号暂只保存在此电脑；登录不会自动开启麦克风或屏幕共享。</p>
+  </dialog>
+  <noscript><p>请开启 JavaScript 后使用屏幕共享。</p></noscript>
+  <dialog id="native-source-dialog" class="source-dialog" aria-labelledby="native-source-title">
+    <form method="dialog" class="source-layout">
+      <div class="source-heading">
+        <span class="source-heading-icon" aria-hidden="true">▣</span>
+        <h2 id="native-source-title">选择分享来源</h2>
+        <button type="button" class="source-refresh" aria-label="刷新来源" title="刷新来源">↻</button>
+        <button type="button" data-close-source aria-label="关闭来源选择" class="source-icon-button">×</button>
+      </div>
+      <div class="source-categories" role="group" aria-label="来源类别">
+        <button type="button" data-source-kind="window" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="4" width="16" height="12" rx="2"/><path d="M2 8h16"/></svg>程序／窗口</button>
+        <button type="button" data-source-kind="display" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="3" width="16" height="11" rx="2"/><path d="M10 14v3m-4 0h8"/></svg>屏幕</button>
+      </div>
+      <div class="source-options">
+        <label><input id="native-border" type="checkbox" role="switch" checked>显示采集边框</label>
+        <label><input id="native-audio" type="checkbox" role="switch">共享来源声音</label>
+      </div>
+      <div class="source-grid" aria-label="来源缩略图"></div>
+      <div class="source-footer">
+        <div class="source-footer-info">
+          <label for="native-encoder">编码器</label><select id="native-encoder"></select>
+          <p class="source-status" role="status"></p>
+        </div>
+        <div class="source-actions">
+          <button type="button" data-close-source>取消</button>
+          <button type="submit" value="share" disabled>开始共享</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+  <dialog id="share-settings-dialog" class="illustration-settings" aria-labelledby="share-settings-title">
+    <div class="share-settings-layout">
+      <header class="share-settings-chrome">
+        <span class="share-settings-brand">同屏小屋</span>
+        <div class="share-wallpapers" role="group" aria-label="分享设置底图">
+          <button type="button" data-share-art="sakura" aria-pressed="true">绯樱</button>
+          <button type="button" data-share-art="teal" aria-pressed="false">青黛</button>
+          <button type="button" data-share-art="gold" aria-pressed="false">黑金</button>
+        </div>
+        <button id="share-update-btn" type="button" class="share-settings-close" aria-label="检查更新" title="检查更新">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.4 8a6.7 6.7 0 1 0 0 4M16.4 4.4V8h-3.6"/></svg>
+        </button>
+        <form method="dialog"><button type="submit" class="share-settings-close" aria-label="关闭分享设置">×</button></form>
+      </header>
+      <div class="share-settings-panel">
+        <h2 id="share-settings-title">分享设置</h2>
+        <div class="share-settings-nav">
+          <div class="share-settings-tabs" role="tablist" aria-label="分享设置类别">
+            <button type="button" id="share-picture-tab" role="tab" aria-controls="share-picture-settings" aria-selected="true">画面</button>
+            <button type="button" id="share-sound-tab" role="tab" aria-controls="share-sound-settings" aria-selected="false">声音</button>
+          </div>
+          <output id="share-format" class="share-readout">1080p · 60 fps</output>
+        </div>
+        <div id="share-picture-settings" role="tabpanel" aria-labelledby="share-picture-tab">
+          <fieldset id="share-video-profile" class="share-profile-fields" aria-label="发送画质">
+            <div class="share-presets" role="group" aria-label="画质预设">
+              <button type="button" data-share-preset="light" aria-pressed="false"><strong>轻量</strong><small>720p · 30 帧</small></button>
+              <button type="button" data-share-preset="hd" aria-pressed="false"><strong>高清</strong><small>1080p · 30 帧</small></button>
+              <button type="button" data-share-preset="fast" aria-pressed="true"><strong>高帧率</strong><small>1080p · 60 帧</small></button>
+              <button type="button" data-share-preset="2k" aria-pressed="false"><strong>2K</strong><small>1440p · 60 帧</small></button>
+            </div>
+            <details class="share-section" open>
+              <summary>画面细调</summary>
+              <div class="share-section-body">
+                <div class="share-control-heading"><span id="share-resolution-label">分辨率上限</span><output id="share-dimensions" class="share-readout">1920 × 1080</output></div>
+                <div class="share-choices" role="group" aria-labelledby="share-resolution-label">
+                  <label><input type="radio" name="share-resolution" value="480"><span>480p</span></label>
+                  <label><input type="radio" name="share-resolution" value="720"><span>720p</span></label>
+                  <label><input type="radio" name="share-resolution" value="1080" checked><span>1080p</span></label>
+                  <label><input type="radio" name="share-resolution" value="1440"><span>1440p</span></label>
+                </div>
+                <div class="share-settings-grid">
+                  <div class="share-range-field">
+                    <div class="share-control-heading"><label for="native-fps">帧率上限</label><output for="native-fps" id="native-fps-value" class="share-readout">60 fps</output></div>
+                    <input id="native-fps" type="range" min="15" max="60" value="60">
+                  </div>
+                  <div class="share-range-field">
+                    <div class="share-control-heading"><label for="native-bitrate">单路码率上限</label><output for="native-bitrate" id="native-bitrate-value" class="share-readout">6 Mbps</output></div>
+                    <input id="native-bitrate" type="range" min="0.5" max="20" step="0.5" value="6">
+                  </div>
+                </div>
+                <div class="share-settings-grid">
+                  <div>
+                    <div class="share-control-heading" id="share-priority-label">画面偏好</div>
+                    <div class="share-choices" role="group" aria-labelledby="share-priority-label">
+                      <label><input type="radio" name="share-priority" value="detail" checked><span>清晰</span></label>
+                      <label><input type="radio" name="share-priority" value="fixed"><span>均衡</span></label>
+                      <label><input type="radio" name="share-priority" value="motion"><span>流畅</span></label>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="share-control-heading" id="share-codec-label">视频编码</div>
+                    <div class="share-choices" role="group" aria-labelledby="share-codec-label">
+                      <label><input type="radio" name="share-codec" value="vp8"><span>VP8</span></label>
+                      <label><input type="radio" name="share-codec" value="auto" checked><span>自动</span></label>
+                      <label><input type="radio" name="share-codec" value="h264"><span>H264</span></label>
+                    </div>
+                    <small class="share-settings-note">下次共享时生效</small>
+                  </div>
+                </div>
+              </div>
+            </details>
+          </fieldset>
+        </div>
+        <div id="share-sound-settings" role="tabpanel" aria-labelledby="share-sound-tab" hidden>
+          <div class="share-section share-section-body">
+            <label class="share-switch-row">默认共享来源声音<input id="default-source-audio" type="checkbox" role="switch"></label>
+            <small class="share-settings-note">选择来源时可以单独开关</small>
+            <div class="share-range-field">
+              <div class="share-control-heading"><label for="share-volume">本机收听共享音量</label><output for="share-volume" id="share-volume-value" class="share-readout">100%</output></div>
+              <input id="share-volume" type="range" min="0" max="100" value="100">
+            </div>
+          </div>
+        </div>
+        <details class="share-section share-connection" open>
+          <summary>连接设置</summary>
+          <div class="share-section-body">
+            <div class="share-settings-grid">
+              <label class="share-select">总上传预算<select id="upload-budget"><option value="6000000">6 Mbps</option><option value="8000000" selected>8 Mbps</option><option value="12000000">12 Mbps</option><option value="20000000">20 Mbps</option><option value="40000000">40 Mbps</option></select></label>
+              <label class="share-select">本机观看方式<select id="playback-mode"><option value="smooth" selected>流畅观看</option><option value="realtime">实时观看</option></select></label>
+            </div>
+            <div class="share-connection-badges"><span>自动分配转发</span><span>私网模式</span></div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>

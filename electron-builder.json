@@ -1,0 +1,84 @@
+{
+  "appId": "local.friendscreen.private",
+  "productName": "同屏小屋",
+  "executableName": "FriendScreen",
+  "asar": true,
+  "directories": {
+    "output": "dist/0.4.6",
+    "buildResources": "build"
+  },
+  "files": [
+    "desktop/**/*",
+    "public/**/*",
+    "network/**/*",
+    "server.mjs",
+    "accounts.mjs",
+    "package.json"
+  ],
+  "extraResources": [
+    {
+      "from": "native/bin/OverlayBridge.exe",
+      "to": "native/OverlayBridge.exe"
+    },
+    {
+      "from": "vendor/piik",
+      "to": "piik"
+    },
+    {
+      "from": "vendor/zerotier",
+      "to": "network-component"
+    },
+    {
+      "from": "licenses",
+      "to": "licenses"
+    },
+    {
+      "from": "docs",
+      "to": "docs",
+      "filter": [
+        "friends-guide.md",
+        "administrator-guide.md",
+        "release-0.4.6.md",
+        "test-report-0.4.6.md",
+        "update-guide.md",
+        "diagnostics-guide.md"
+      ]
+    },
+    {
+      "from": "scripts/install-overlay.ps1",
+      "to": "install-overlay.ps1"
+    },
+    {
+      "from": "scripts/uninstall-overlay.ps1",
+      "to": "uninstall-overlay.ps1"
+    },
+    {
+      "from": "vendor/piik-source/LICENSE",
+      "to": "licenses/Piik-MIT.txt"
+    }
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": [
+          "x64"
+        ]
+      }
+    ],
+    "icon": "desktop/icon.ico",
+    "signExecutable": false
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": true,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "同屏小屋",
+    "include": "build/installer.nsh",
+    "runAfterFinish": true,
+    "deleteAppDataOnUninstall": false,
+    "artifactName": "FriendScreen-0.4.6-Setup-x64.exe"
+  }
+}

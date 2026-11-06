@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark"><title>同屏小屋 · 首次设置</title><link rel="stylesheet" href="/desktop.css"><script src="/launcher.js" defer></script></head>
+<body class="launcher-body"><main class="launcher-shell">
+  <header class="desktop-brand"><span class="logo-mark" aria-hidden="true">⌂</span><div><strong>同屏小屋</strong><span>PRIVATE SPACE · WINDOWS</span></div><span id="app-version" class="version"></span><button id="launcher-update-btn" class="launcher-update-button" type="button" aria-label="检查更新" title="检查更新">↻</button></header>
+  <div class="launcher-intro"><div class="eyebrow">YOUR SPACE, TOGETHER</div><h1>只和熟悉的人，一起看。</h1><p>设置一次，记住这台电脑。之后直接进入小屋，无需账号密码。</p></div>
+  <div class="mode-grid" id="overlay-setup">
+    <section class="mode-card server-card"><span class="mode-number">01 / 你的身份</span><h2>朋友们怎么称呼你</h2>
+      <form id="setup-form">
+        <div class="setup-avatar"><img id="avatar-preview" alt="头像预览" hidden><span id="avatar-placeholder">我</span><label for="avatar-file">选择头像<input id="avatar-file" type="file" accept="image/png,image/jpeg,image/webp"></label></div>
+        <label for="nickname">昵称</label><input id="nickname" required maxlength="24" autocomplete="nickname" placeholder="1–24 个字">
+        <div id="invite-field"><label for="invitation">永久邀请码</label><textarea id="invitation" rows="4" maxlength="2048" spellcheck="false" placeholder="粘贴管理员发给你的 FSI1. 开头的邀请码"></textarea></div>
+        <details id="administrator-settings"><summary>我是小屋管理员</summary><label class="check-line"><input id="administrator" type="checkbox">创建新的小屋（管理员电脑）</label><label for="network-id">ZeroTier Network ID</label><input id="network-id" maxlength="16" spellcheck="false" placeholder="后台提供的 16 位十六进制 ID"><p>管理员先按随包《管理员说明》创建免费 Private 网络，朋友不用平台账号。</p></details>
+        <button id="setup-btn" class="button primary" type="submit">保存并申请加入 <span aria-hidden="true">↗</span></button>
+      </form>
+    </section>
+    <section class="mode-card"><span class="mode-number">02 / 连接私有网络</span><h2 id="phase-title">等待首次设置</h2><p id="connection-message">新设备需要管理员批准一次。入网时管理员需保持同屏小屋运行。</p>
+      <div class="mode-note">完整安装包已包含 ZeroTier 组件。安装驱动及首次授权需要 Windows UAC；朋友无需另外下载、注册或打开浏览器。</div>
+      <button id="authorize-btn" class="button secondary" type="button">首次 Windows 授权（会显示 UAC）</button>
+      <dl class="device-info"><dt>ZeroTier ID（给管理员核对）</dt><dd id="node-id">尚未取得</dd><dt>本机设备标识</dt><dd id="device-id">正在读取</dd><dt>私网状态</dt><dd id="network-state">未连接</dd></dl>
+      <div class="setup-actions"><button id="retry-btn" class="button secondary" type="button">重新检查</button><button id="enter-btn" class="button primary" type="button" disabled>进入小屋</button></div>
+      <button id="exit-device" class="text-link" type="button" hidden>退出当前设备</button>
+    </section>
+  </div>
+  <section id="admin-panel" class="admin-panel" hidden><h2>小屋管理</h2><p>把邀请码私发给朋友，之后在 ZeroTier Central 的 Member Devices 核对他们的 ZeroTier ID 并 Authorize。首次入群时请保持本程序运行。</p><label for="current-invitation">当前永久邀请码</label><textarea id="current-invitation" rows="3" readonly spellcheck="false"></textarea><div class="setup-actions"><button id="copy-invitation" class="button secondary" type="button">复制邀请码</button><button id="rotate-invitation" class="button secondary" type="button">撤销旧邀请码并生成新码</button></div><p>轮换仅阻止新入群。移除成员后还必须在平台后台取消授权，才能在管理员离线时也立即隔离该设备。</p><ul id="approved-members"></ul></section>
+  <section id="legacy-tests" hidden><button id="local-mode-btn" type="button">开发测试：本机模式</button><form id="server-form"><input id="server-origin"><button id="connect-server-btn">开发测试：服务器</button></form></section>
+  <div id="launcher-status" class="desktop-status" role="status" aria-live="polite"></div>
+  <footer class="launcher-footer"><span>仅供受邀朋友使用 · 不录制内容 · 不向业务云服务上传头像或音视频</span><span>菜单「小屋 → 设备与小屋设置」可返回这里。</span></footer>
+</main></body></html>

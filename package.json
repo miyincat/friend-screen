@@ -1,0 +1,46 @@
+{
+  "name": "friend-screen",
+  "version": "0.4.6",
+  "private": true,
+  "type": "module",
+  "main": "desktop/main.cjs",
+  "description": "Independent small-group WebRTC screen sharing",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "test": "node --test test/server.test.mjs test/accounts.test.mjs test/pending-signals.test.mjs test/media-controls.test.mjs test/updates.test.cjs",
+    "test:browser": "node test/browser.mjs",
+    "test:capture": "node test/native-capture.mjs",
+    "desktop": "electron .",
+    "test:desktop": "node test/desktop.mjs",
+    "pack:win": "node scripts/package-windows.mjs",
+    "test:profile": "node test/profile-voice.mjs",
+    "test:account-desktop": "node test/desktop-account.mjs",
+    "build:installer": "node scripts/build-release.mjs",
+    "test:network": "node --test test/network.test.mjs test/overlay-server.test.mjs test/media-path-state.test.mjs",
+    "test:desktop-ice": "node test/desktop-ice.mjs",
+    "test:media-quality": "node test/media-quality.mjs",
+    "test:desktop-performance": "node test/desktop-performance.mjs",
+    "test:private-native": "node test/private-native.mjs",
+    "test:diagnostics": "node --test test/diagnostics.test.cjs",
+    "test:diagnostics-media": "node test/diagnostics-media.mjs",
+    "test:smooth-viewing": "node test/smooth-viewing.mjs"
+  },
+  "dependencies": {
+    "electron-updater": "6.8.12",
+    "fflate": "0.8.3",
+    "ws": "8.22.1"
+  },
+  "overrides": {
+    "glob": "14.0.3",
+    "minimatch": "11.0.4"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.3.0",
+    "@playwright/test": "1.64.1",
+    "electron": "45.2.2",
+    "electron-builder": "26.18.0"
+  }
+}

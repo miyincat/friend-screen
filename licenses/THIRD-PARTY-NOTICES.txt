@@ -1,0 +1,34 @@
+FriendScreen / 同屏小屋 0.3.2 — Third-party notices
+
+This is an independent application. It is not Oopz, ZeroTier or a product endorsed by either company. No Oopz code, media or private service is included.
+
+ZeroTier One 1.14.2, Copyright ZeroTier, Inc.
+Unmodified official Windows MSI, signed by ZEROTIER, INC.
+SHA256: 45A7C031E4D003512D6C08710E89BA57D9E5A0AEB6AF1D26326AD3C0B2A1755D
+Source: https://github.com/zerotier/ZeroTierOne/tree/1.14.2
+Download: https://download.zerotier.com/RELEASES/1.14.2/dist/ZeroTierOne.msi
+The pinned 1.14.2 LICENSE.txt specifies BSL 1.1, Change Date 2026-01-01, Change License Apache 2.0. The evaluation date is 2026-11-04. Original BSL text, copyright notice, Apache license and the complete tag source archive are included. This notice does not extend that conclusion to another release or override licenses of separate dependencies. No ZeroTier branding is removed from its binaries.
+
+TAP-Windows driver, Copyright (C) 2002-2014 OpenVPN Technologies, Inc. and its contributors. GPL version 2. The complete ZeroTier 1.14.2 source archive includes windows/TapDriver6 sources and build project, together with ext/bin/tap-windows-ndis6. The unmodified corresponding upstream files and GPL v2 text are supplied. No test-signed or modified driver is used. Additional upstream notices remain in source files.
+
+ZeroTier DesktopUI, Mozilla Public License 2.0. Official MSI contains the upstream UI. It is installed headless (ZTHEADLESS=Yes) and not used for FriendScreen interaction. DesktopUI 1.8.4 source and its MPL license are supplied; project source is https://github.com/zerotier/DesktopUI . No executable is rebranded.
+
+Component source archives are installed beside this notice in ../network-component/. They may be extracted using a tar-capable archive tool. Their source files retain dependency licenses and copyright notices. You may exercise the rights those licenses provide independently of FriendScreen.
+
+Electron 45.2.2, MIT license; Chromium and other dependencies have their respective licenses. Electron LICENSE and LICENSES.chromium.html are retained in the application distribution.
+ws 8.22.1, MIT license; its license is retained with node_modules/ws inside app.asar.
+
+This test distribution does not require or include a ZeroTier cloud API token, permanent VPN authentication key, private network ID or application invitation. Each device generates its own identity, and network membership requires administrator authorization.
+
+
+Piik native media integration (FriendScreen 0.3.6)
+Based on Piik v2.5.3, revision f2f9d27db66565f9234c16d46ddd10f4d143cc16.
+Copyright (c) 2026 TNTcraft and Piik contributors. MIT License.
+Modified Go media adapter; official Windows capture helper retained.
+Piik license: resources/piik/LICENSE and resources/licenses/Piik-MIT.txt.
+Dependency notices: resources/piik/THIRD-PARTY-NOTICES.txt.
+Modifications: resources/piik/FRIENDSCREEN-MODIFICATIONS.txt.
+Source is included under vendor/piik-source in the supplied source archive.
+
+fflate 0.8.3 (MIT) is used for local diagnostic ZIP creation.
+Copyright (c) 2026 Arjun Barrett. Full license included in app.asar/node_modules/fflate/LICENSE.

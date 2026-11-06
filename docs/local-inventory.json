@@ -1,0 +1,49 @@
+{
+  "inspectionDate": "2026-11-04",
+  "method": "Read-only filesystem inventory and Windows version metadata; no decompilation or runtime interception",
+  "installPath": "C:\\Users\\admint\\AppData\\Local\\oopz",
+  "files": [
+    {
+      "relativePath": "oopz.exe",
+      "length": 483720,
+      "version": "0.88.41",
+      "sha256": "D69392D80E4D0A06AA08E0DB5F36DA712B6E830CE866F6553764FB51FAB11AD5"
+    },
+    {
+      "relativePath": "flutter_windows.dll",
+      "length": 19081616,
+      "version": null,
+      "sha256": "7B61DB6BB719590222D6EC1E082EC8646AC169A6C45402DFC1CE9FF589D1F466"
+    },
+    {
+      "relativePath": "agora_rtc_sdk.dll",
+      "length": 35222920,
+      "version": "4.2.6.169",
+      "sha256": "8107CF91DCCCD3186FADABC4D4787FCA19550AC3FAC5F46109568EEC22A7400B"
+    },
+    {
+      "relativePath": "libagora_screen_capture_extension.dll",
+      "length": 1538448,
+      "version": "2.7.0",
+      "sha256": "747F6040592CEBA7BCB12280FCD702F8D472E1DE947ECD847938E1CC449AA8BD"
+    },
+    {
+      "relativePath": "tencent_trtc_cloud_plugin.dll",
+      "length": 767888,
+      "version": null,
+      "sha256": "CC0331FA7F2598FFCBFE1143337B0F155DA58A33B949533D8FCB4ACA71DCF46B"
+    },
+    {
+      "relativePath": "screenShare\\screenshare_runner.exe",
+      "length": 614864,
+      "version": null,
+      "sha256": "9ABF5F144E04CE98C1CE4BA74BBE4DD6B170496BF7A639C538C87FCD2A501C7E"
+    },
+    {
+      "relativePath": "webview\\LICENSE.electron.txt",
+      "length": 1096,
+      "version": null,
+      "sha256": "5154E165BD6C2CC0CFBCD8916498C7ABAB0497923BAFCD5CB07673FE8480087D"
+    }
+  ]
+}

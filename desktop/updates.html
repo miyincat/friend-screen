@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>同屏小屋 · 客户端更新</title>
+  <link rel="stylesheet" href="/desktop.css">
+  <link rel="stylesheet" href="/updates.css">
+  <script src="/updates-renderer.js" defer></script>
+</head>
+<body class="update-body">
+  <main class="update-panel">
+    <header class="update-header">
+      <div class="update-mark" aria-hidden="true">↻</div>
+      <div><h1>客户端更新</h1><p id="current-version"></p></div>
+    </header>
+    <div id="update-status" class="update-status" role="status" aria-live="polite">正在读取更新设置…</div>
+    <section id="release" class="update-release" aria-label="版本说明" hidden>
+      <strong id="release-version"></strong>
+      <p id="release-notes"></p>
+    </section>
+    <div id="progress-box" class="update-progress" hidden>
+      <progress id="update-progress" max="100" value="0" aria-label="更新下载进度"></progress><output id="progress-value">0%</output>
+    </div>
+    <p id="update-error" class="update-error" role="alert" hidden></p>
+    <details id="update-repository" class="update-repository">
+      <summary>更新仓库</summary>
+      <form id="update-repository-form">
+        <label for="repository-url">GitHub 发布仓库链接</label>
+        <input id="repository-url" type="url" maxlength="240" placeholder="https://github.com/用户名/friend-screen-releases" required>
+        <button id="save-repository" class="button secondary" type="submit">保存并检查</button>
+      </form>
+    </details>
+    <div class="update-actions">
+      <button id="check-update" class="button secondary" type="button">检查更新</button>
+      <button id="download-update" class="button primary" type="button" hidden>下载更新</button>
+      <button id="install-update" class="button primary" type="button" hidden>重启并更新</button>
+    </div>
+  </main>
+</body>
+</html>

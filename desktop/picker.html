@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark">
+  <title>选择共享内容 · 同屏小屋</title><link rel="stylesheet" href="/desktop.css"><script src="/picker.js" defer></script>
+</head>
+<body class="picker-body">
+  <main class="picker-shell">
+    <header class="picker-heading"><div><div class="eyebrow">YOU CHOOSE WHAT TO SHARE</div><h1>想让朋友看到什么？</h1><p>先选择一个屏幕或窗口，再点击「开始共享」。</p></div><span class="picker-privacy">尚未开始采集</span></header>
+    <div class="picker-tabs" role="group" aria-label="来源类型"><button id="filter-all" class="filter active" type="button" aria-pressed="true" data-filter="all">全部</button><button id="filter-screens" class="filter" type="button" aria-pressed="false" data-filter="screen">整个屏幕</button><button id="filter-windows" class="filter" type="button" aria-pressed="false" data-filter="window">单个窗口</button><span id="source-count"></span></div>
+    <div id="sources-list" class="sources-list" aria-label="可共享的屏幕和窗口"></div>
+    <p id="picker-status" class="desktop-status" role="status" aria-live="polite">正在读取可共享的屏幕和窗口…</p>
+    <footer class="picker-bottom"><label class="audio-choice" for="system-audio"><input id="system-audio" type="checkbox"><span><strong>同时共享整个系统的声音</strong><small id="audio-note">即使只分享一个窗口，也会收录其他应用的声音。默认不共享。</small></span></label><div class="picker-actions"><button id="cancel-share-btn" class="button cancel" type="button">取消</button><button id="confirm-share-btn" class="button primary" type="button" disabled>开始共享</button></div></footer>
+  </main>
+</body>
+</html>
